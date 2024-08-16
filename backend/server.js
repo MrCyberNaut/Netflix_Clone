@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes.js";
 
 
-dotenv.config();
+dotenv.config(); // if cdeleted will show undefined in the termibnal 
 console.log("MONGO URI :", process.env.MONGO_URI )
 const app = express();
 
