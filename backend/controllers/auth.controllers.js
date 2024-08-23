@@ -1,5 +1,6 @@
 import { User } from "../models/User.model.js";
 import bcryptjs from "bcryptjs";
+import { generateTokenAndSetCookie } from "../utils/generateTokens.js";
 export async function signup (req,res){
    try {
      const {email,password,username} = req.body;  //email and all coming from req body object 
@@ -41,26 +42,62 @@ export async function signup (req,res){
  })
  //creatred user should be saved in database
  
+    generateTokenAndSetCookie(newUser._id,res);
+    await newUser.save(); // saving user to the database
 
+    res.status(201).json({success:true,
+        user : {
+       ...newUser._doc, // this is to show the user
+       password : "" ,
+         } // this is to hide the password from the user
+    });// this is to end a request to let them know that the user has been created successfully
  
- await newUser.save();
- res.status(201).json({success:true,
-     user : {
-    ...newUser._doc, // this is to show the user
-    password : "" ,
-      } // this is to hide the password from the user
- });// this is to end a request to let them know that the user has been created successfully
 
-}catch (error) {
-    console.log("Error on signup controller",error.message);
-    res.status(500).json({success:false,message:"Internal server error"});
+
+}   catch (error) {
+        console.log("Error on signup controller",error.message);
+        res.status(500).json({success:false,message:"Internal server error"});
 }
 }
 
 export async function login (req,res){
-    res.send("Login route");
+   try {
+         const{email , password } = req.body; // we wnat the email and password for login no need for username 
+
+         if( !email || !password){
+            return res.status(400).json({success:false,message:"All fields are required"});
+         }
+
+         const user = await User.findOne({email:email});
+            if (!user){
+                return res.status(404).json({success:false,message:"Invalid credentials"}); //general message so as to not give away too much information of whats wrong email or password
+            }
+
+            const isPasswordCorrect = await bcryptjs.compare(password,user.password);//compares the userpassword with database password
+
+            if(!isPasswordCorrect){
+                return res.status(400).json({success:false,message:"Invalid credentials"}); //general message so as to not give away too much information of whats wrong email or password
+            }
+
+            generateTokenAndSetCookie(user._id,res); //if everything is correct do this 
+
+            res.status(200).json({success:true,
+                user : {
+                    ...user._doc,
+                    password : ""
+                } //returns user object by deleteing the password
+            });
+   } catch (error) {
+    
+   }
 };
 
 export async function logout (req,res){
-    res.send("Logout route");
+    try {
+        res.clearCookie("jwt-token");
+        res.status(200).json({success:true,message:"Logged out successfully"});
+    } catch (error) {
+        console.log("Error on logout controller",error.message);
+        res.status(500).json({success:false,message:"Internal server error"});
+    }
 };
