@@ -88,7 +88,8 @@ export async function login (req,res){
                 } //returns user object by deleteing the password
             });
    } catch (error) {
-    
+    console.log("Error on login controller",error.message);
+    return res.status(500).json({success:false,message:"Internal server error"});q
    }
 };
 
