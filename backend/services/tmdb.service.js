@@ -1,11 +1,11 @@
 
 import axios from 'axios';
-import ENV_VARS from '../config/env_vars';
+import { ENV_VARS } from "../CONFIG/envVars.js";
 
 export const fetchFromTMDB = async (url) => {
 
     const options = {
-        method: 'GET',
+        
         headers: {
           accept: 'application/json',
           Authorization: 'Bearer ' + ENV_VARS.TMDB_API_KEY
@@ -14,6 +14,10 @@ export const fetchFromTMDB = async (url) => {
 
 
       const response = await axios.get(url, options)
+
+      if(response.status !== 200 ){
+        throw new Error('Falied to get data from TMDB'+ response.statusText ); 
+      }
 
 
    /*   this is how we normally use fetch , but we are using axios
@@ -30,8 +34,5 @@ export const fetchFromTMDB = async (url) => {
 //TMDB auth
 
   
-  fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+
     
