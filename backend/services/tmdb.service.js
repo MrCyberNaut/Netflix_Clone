@@ -1,38 +1,32 @@
-
-import axios from 'axios';
+import axios from "axios";
 import { ENV_VARS } from "../CONFIG/envVars.js";
 
 export const fetchFromTMDB = async (url) => {
+	const options = {
+		headers: {
+			accept: "application/json",
+			Authorization: "Bearer " + ENV_VARS.TMDB_API_KEY,
+		},
+	};
 
-    const options = {
-        
-        headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer ' + ENV_VARS.TMDB_API_KEY
-        }
-      };
+	const response = await axios.get(url, options);
 
+	if (response.status !== 200) {
+		throw new Error("Failed to fetch data from TMDB" + response.statusText);
+	}
 
-      const response = await axios.get(url, options)
-
-      if(response.status !== 200 ){
-        throw new Error('Falied to get data from TMDB'+ response.statusText ); 
-      }
-
-
-   /*   this is how we normally use fetch , but we are using axios
-       in fetch we get the response and then we get the data from the response and return it
-    const res = await fetch(url, options);
-    const data = await res.json();
-    return data; */
-     
-      return response.data;
-} 
+	return response.data;
+}; 
 
 
 
 //TMDB auth
 
-  
+    /*   this is how we normally use fetch , but we are using axios
+       in fetch we get the response and then we get the data from the response and return it
+    const res = await fetch(url, options);
+    const data = await res.json();
+    return data; */
+      
 
     
