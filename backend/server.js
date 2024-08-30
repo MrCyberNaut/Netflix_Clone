@@ -2,7 +2,7 @@
 import express from "express";  // ems emmascript
 
 import authRoutes from "./routes/auth.route.js"; // we are importing the routes from the auth.route.js file
-import movieRoutes from "./routes/movie.route.js"; // we are importing the routes from the movie.route.js file
+import movieRoutes from "./routes/movie.route.js" // we are importing the routes from the movie.route.js file
 
 import { ENV_VARS } from "./CONFIG/envVars.js";
 import { connectDB } from "./CONFIG/db.js";
