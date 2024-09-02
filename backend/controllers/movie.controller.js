@@ -29,3 +29,12 @@ export async function getTrendingMovie(req, res) {
 		res.status(500).json({ success: false, message: "Internal Server Error in getting movie trailers" , error: error.message , stack: error.stack, });
 	}
  }
+
+ export async function getMovieDetails(req, res) {
+	const {id} = req.params;  // we are getting the id from the params, the variable name should be the same as the one in the route
+	try {
+		const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${id}?language=en-US`);
+	} catch (error) {
+		
+	}
+ }
