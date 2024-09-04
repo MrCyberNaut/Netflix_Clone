@@ -35,6 +35,20 @@ export async function getTrendingMovie(req, res) {
 	try {
 		const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${id}?language=en-US`);
 	} catch (error) {
-		
+		if (error.message.includes("404")) {
+			return res.status(404).send(null);
+		}
+
+		res.status(500).json({ success: false, message: "Internal Server Error" });
+	}
+ }
+
+ export async function getSimilarMovies(req,res) {
+	const {id} = req.params;  // we are getting the id from the params, the variable name should be the same as the one in the route
+	try {
+		const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`);
+		res.status(200).json({ success: true, similar: data.results });
+	} catch (error) {
+		res.status(500).json({ success: false, message: "Internal Server Error in getting similar movies" , error: error.message });
 	}
  }
