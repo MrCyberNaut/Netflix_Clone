@@ -52,3 +52,14 @@ export async function getTrendingMovie(req, res) {
 		res.status(500).json({ success: false, message: "Internal Server Error in getting similar movies" , error: error.message });
 	}
  }
+
+ export async function getMoviesByCategory(req,res) {
+	const{category} = req.params;
+	try {
+		const data = await fetchFromTMDB(`https://api.themoviedb.org/3/discover/movie?with_genres=${category}&language=en-US&page=1`);
+		res.status(200).json({ success: true, content: data.results });
+	} catch (error) {
+		
+	}
+
+ }
