@@ -8,7 +8,7 @@ export async function getTrendingTv(req, res) {
 
 		res.json({ success: true, content: randomMovie });
 	} catch (error) {
-		res.status(500).json({ success: false, message: "Internal Server Error in trending movie" , error: error.message , stack: error.stack, });
+		res.status(500).json({ success: false, message: "Internal Server Error in trending TV" , error: error.message , stack: error.stack, });
 	}
 }
 
@@ -26,7 +26,7 @@ export async function getTrendingTv(req, res) {
 			return res.status(404).json({ success: false, message: "No trailers found" });
 		}
 
-		res.status(500).json({ success: false, message: "Internal Server Error in getting movie trailers" , error: error.message , stack: error.stack, });
+		res.status(500).json({ success: false, message: "Internal Server Error in getting TV trailers" , error: error.message , stack: error.stack, });
 	}
  }
 
@@ -39,7 +39,7 @@ export async function getTrendingTv(req, res) {
 			return res.status(404).send(null);
 		}
 
-		res.status(500).json({ success: false, message: "Internal Server Error" });
+		res.status(500).json({ success: false, message: "Internal Server Error in getting TV details" });
 	}
  }
 
@@ -49,7 +49,7 @@ export async function getTrendingTv(req, res) {
 		const data = await fetchFromTMDB(`https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`);
 		res.status(200).json({ success: true, similar: data.results });
 	} catch (error) {
-		res.status(500).json({ success: false, message: "Internal Server Error in getting similar movies" , error: error.message });
+		res.status(500).json({ success: false, message: "Internal Server Error in getting similar TVs" , error: error.message });
 	}
  }
 
