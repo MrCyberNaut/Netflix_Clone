@@ -28,5 +28,5 @@ const userSchema = mongoose.Schema({
 
 });
 
-export const User = mongoose.model('User', userSchema); //creates a user model , create a user collection thats based of userSchema 
+export const User = mongoose.models.User || mongoose.model('User', userSchema);//creates a user model , create a user collection thats based of userSchema 
 // the first letter in User for model has to be capital and the word has to be singular , mongoose automatically changes it to plural
