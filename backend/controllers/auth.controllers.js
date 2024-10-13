@@ -1,4 +1,4 @@
-import { User } from "../models/User.model.js";
+import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { generateTokenAndSetCookie } from "../utils/generateTokens.js";
 export async function signup (req,res){
@@ -6,7 +6,7 @@ export async function signup (req,res){
      const {email,password,username} = req.body;  //email and all coming from req body object 
      
      if ( !email || !password || !username ){
-         return res.staus(400).json({success:false,message:"All fields are required "});
+         return res.status(400).json({success:false,message:"All fields are required "});
    } 
 
    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //email regex
