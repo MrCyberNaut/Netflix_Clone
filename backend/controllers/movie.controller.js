@@ -26,7 +26,7 @@ export async function getTrendingMovie(req, res) {
 			return res.status(404).json({ success: false, message: "No trailers found" });
 		}
 
-		res.status(500).json({ success: false, message: "Internal Server Error in getting movie trailers" , error: error.message , stack: error.stack, });
+		res.status(500).json({ success: false, message: "Internal Server Error in getting movie trailers" });
 	}
  }
 
@@ -39,7 +39,7 @@ export async function getTrendingMovie(req, res) {
 			return res.status(404).send(null);
 		}
 
-		res.status(500).json({ success: false, message: "Internal Server Error" });
+		res.status(500).json({ success: false, message: "Internal Server Error while getting details" });
 	}
  }
 
@@ -53,13 +53,12 @@ export async function getTrendingMovie(req, res) {
 	}
  }
 
- export async function getMoviesByCategory(req,res) {
-	const{category} = req.params;
+ export async function getMoviesByCategory(req, res) {
+	const { category } = req.params;
 	try {
-		const data = await fetchFromTMDB(`https://api.themoviedb.org/3/discover/movie?with_genres=${category}&language=en-US&page=1`);
+		const data = await fetchFromTMDB(`https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`);
 		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
-		
+		res.status(500).json({ success: false, message: "Internal Server Error" });
 	}
-
- }
+}

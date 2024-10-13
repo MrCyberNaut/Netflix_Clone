@@ -1,6 +1,6 @@
- import jwt from 'jsonwebtoken';
-import { User } from '../models/user.model.js';
-import { ENV_VARS } from '../CONFIG/envVars.js';
+ import jwt from "jsonwebtoken";
+import { User } from "../models/user.model.js";
+import { ENV_VARS } from "../CONFIG/envVars.js";
 
 
 export const protectRoute = async (req, res, next) => {
@@ -8,7 +8,7 @@ export const protectRoute = async (req, res, next) => {
         const token =  req.cookies["jwt-netflix"];
 
         if(!token){
-            return res.status(401).json({success: false, message: "Unauthorized - No  Token Provided "});
+            return res.status(401).json({success: false, message: "Unauthorized - No  Token Provided,1 "});
         }
 
         const decoded = jwt.verify(token, ENV_VARS.JWT_SECRET); // we are verifying the token using the secret key
